@@ -30,40 +30,42 @@
   <button id="generate">Generate Quote</button>
 
   <script>
-    const generateButton = document.getElementById('generate');
-    const quoteElement = document.getElementById('quote');
+    document.addEventListener('DOMContentLoaded', () => {
+      const generateButton = document.getElementById('generate');
+      const quoteElement = document.getElementById('quote');
 
-    generateButton.addEventListener('click', async () => {
-      const url = 'https://random-quote-generator2.p.rapidapi.com/randomQuote';
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': '2589d0d945msh900743935f389a8p15c96ejsn5364cd142d31',
-          'X-RapidAPI-Host': 'random-quote-generator2.p.rapidapi.com'
+      generateButton.addEventListener('click', async () => {
+        const url = 'https://random-quote-generator2.p.rapidapi.com/randomQuote';
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '2589d0d945msh900743935f389a8p15c96ejsn5364cd142d31',
+            'X-RapidAPI-Host': 'random-quote-generator2.p.rapidapi.com'
+          }
+        };
+
+        try {
+          const response = await fetch(url, options);
+          const result = await response.json();
+          const quote = result.quote;
+          const backgroundColor = getRandomColor();
+          
+          quoteElement.textContent = quote;
+          document.body.style.backgroundColor = backgroundColor;
+        } catch (error) {
+          console.error(error);
         }
-      };
+      });
 
-      try {
-        const response = await fetch(url, options);
-        const result = await response.json();
-        const quote = result.quote;
-        const backgroundColor = getRandomColor();
-        
-        quoteElement.textContent = quote;
-        document.body.style.backgroundColor = backgroundColor;
-      } catch (error) {
-        console.error(error);
+      function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
       }
     });
-
-    function getRandomColor() {
-      const letters = '0123456789ABCDEF';
-      let color = '#';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      return color;
-    }
   </script>
 </body>
 </html>
